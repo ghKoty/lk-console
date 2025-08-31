@@ -1,5 +1,5 @@
 
-# LK Console for Godot 4.5+
+# LK Console backported to Godot 4.1+
 
 In-game developer console inspired by Source engine, made for Godot 4.
 Allows you to register custom commands, print colored output, and interact with your project at runtime.

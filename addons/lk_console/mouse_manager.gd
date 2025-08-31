@@ -12,7 +12,7 @@ static var instances_using_mouse: Array = []
 ## Updates the mouse mode depending on whether any nodes require mouse input.
 ## Called automatically from [method use_mouse] and [method free_mouse].
 static func update_mouse() -> void:
-    instances_using_mouse = instances_using_mouse.filter(is_instance_valid)
+    instances_using_mouse = instances_using_mouse.filter(MouseManager.is_valid_instance)
     if instances_using_mouse.is_empty():
         DisplayServer.mouse_set_mode(DEFAULT_MOUSE_MODE)
     else:
@@ -30,3 +30,7 @@ static func use_mouse(used_by_node: Node) -> void:
 static func free_mouse(used_by_node: Node) -> void:
     instances_using_mouse.erase(used_by_node)
     update_mouse()
+
+# HACK, fixes 'Identifier "is_instance_valid" not declared in the current scope' error in Godot 4.1 - 4.2.
+static func is_valid_instance(instance: Variant) -> bool:
+    return is_instance_valid(instance)

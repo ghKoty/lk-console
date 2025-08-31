@@ -44,5 +44,5 @@ func cmd_print(command_name: String, command_args: Array) -> void:
 
 
 ## 📜 License & Code of Conduct
-This project is licensed under the [MIT License](LICENSE.txt).  
+This project is licensed under the [MIT License](LICENSE).  
 Please follow our [Code of Conduct](CODE_OF_CONDUCT.md) when contributing.

@@ -3,6 +3,3 @@
 
 class_name OversamplingInheritance
 extends Window
-
-func _process(_delta: float) -> void:
-    oversampling_override = get_tree().get_root().oversampling_override

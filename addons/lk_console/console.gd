@@ -11,23 +11,26 @@ const ERROR_COLOR: Color = Color("ff7070")
 ## Contains [Console] instance(self).
 static var instance: Console
 
+# Dictionary[String, float]
 ## Strings from this [Dictionary] will be replaced with corresponding floats after calling [method float_from_string].
-static var float_aliases: Dictionary[String, float] = {
+static var float_aliases: Dictionary = {
     "true": 1.0,
     "false": 0.0,
     "on": 1.0,
     "off": 0.0
 }
 
+# Dictionary[String, int]
 ## Strings from this [Dictionary] will be replaced with corresponding ints after calling [method int_from_string].
-static var int_aliases: Dictionary[String, int] = {
+static var int_aliases: Dictionary = {
     "true": 1,
     "false": 0,
     "on": 1,
     "off": 0
 }
 
-var commands: Dictionary[String, Dictionary] = {}
+# Dictionary[String, Dictionary]
+var commands: Dictionary = {}
 
 var previous_command_result_code: int = 0
 

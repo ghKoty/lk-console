@@ -4,7 +4,7 @@
 class_name Console
 extends OversamplingInheritance
 
-const CONSOLE_VERSION: String = "2.1"
+const CONSOLE_VERSION: String = "2.2"
 const INFO_COLOR: Color = Color.GRAY
 const WARNING_COLOR: Color = Color("ffff70")
 const ERROR_COLOR: Color = Color("ff7070")
@@ -29,10 +29,11 @@ static var int_aliases: Dictionary = {
     "off": 0
 }
 
+## If set true, this [Console] will be hidden when it gets [code]ui_cancel[/code] input(by default when [kbd]Escape[/kbd] pressed).
+@export var hide_on_cancel: bool = true
+
 # Dictionary[String, Dictionary]
 var commands: Dictionary = {}
-
-var previous_command_result_code: int = 0
 
 
 #region Static methods
@@ -64,8 +65,6 @@ static func int_from_string(string: String):
 func _ready() -> void:
     Console.instance = self
     
-    visibility_changed.connect(_on_visibility_changed)
-    
     bind_command("help", cmd_print_help, "Prints list of available commands.")
     bind_command("?", cmd_print_help, "Prints list of available commands.")
     bind_command("echo", cmd_echo, "Echo text back to console.")
@@ -76,7 +75,7 @@ func _ready() -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-    if event.is_action_pressed("ui_cancel"):
+    if hide_on_cancel and event.is_action_pressed("ui_cancel"):
         visible = false
 
 
@@ -222,6 +221,7 @@ func execute_command(command_line: String) -> Array:
     if not current_string.strip_edges().is_empty():
         commands_split.append(current_string.strip_edges())
     
+    var previous_command_result_code: int = 0
     var errors = []
     for command in commands_split:
         if command == ";":

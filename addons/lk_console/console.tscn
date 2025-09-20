@@ -1,19 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxixnc61lun1t"]
 
-[ext_resource type="Script" uid="uid://ca47us2jvvpe3" path="res://addons/lk_console/console.gd" id="1_180ms"]
+[ext_resource type="Script" path="res://addons/lk_console/console.gd" id="1_180ms"]
 [ext_resource type="Theme" uid="uid://boswibt5crvms" path="res://addons/lk_console/console_theme.tres" id="1_bhaeq"]
 
 [node name="Console" type="Window"]
 transparent_bg = true
-oversampling_override = 1.0
 title = "Console"
 position = Vector2i(0, 36)
 size = Vector2i(600, 350)
 transparent = true
 min_size = Vector2i(600, 350)
-keep_title_visible = true
 theme = ExtResource("1_bhaeq")
 script = ExtResource("1_180ms")
+hide_on_cancel = false
 
 [node name="BackgroundPanel" type="Panel" parent="."]
 anchors_preset = 15
@@ -60,7 +59,6 @@ autowrap_mode = 0
 context_menu_enabled = true
 selection_enabled = true
 deselect_on_focus_loss_enabled = false
-drag_and_drop_selection_enabled = false
 
 [node name="Separator" type="Control" parent="VBoxContainer"]
 layout_mode = 2
@@ -79,7 +77,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 placeholder_text = "Enter command..."
-keep_editing_on_text_submit = true
 caret_blink = true
 caret_blink_interval = 0.5
 
@@ -99,5 +96,6 @@ custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
 [connection signal="close_requested" from="." to="." method="set_visible" binds= [false]]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="text_submitted" from="VBoxContainer/HBoxContainer/CommandInput" to="." method="_on_command_input_text_submitted"]
 [connection signal="button_down" from="VBoxContainer/HBoxContainer/SubmitButton" to="." method="_on_submit_button_down"]

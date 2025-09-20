@@ -4,7 +4,7 @@
 class_name Console
 extends OversamplingInheritance
 
-const CONSOLE_VERSION: String = "2.1"
+const CONSOLE_VERSION: String = "2.2"
 const INFO_COLOR: Color = Color.GRAY
 const WARNING_COLOR: Color = Color("ffff70")
 const ERROR_COLOR: Color = Color("ff7070")
@@ -27,10 +27,16 @@ static var int_aliases: Dictionary[String, int] = {
     "off": 0
 }
 
+## If set true, this [Console] will be hidden when it gets [code]ui_cancel[/code] input(by default when [kbd]Escape[/kbd] pressed).
+@export var hide_on_cancel: bool = true
+## If set true, duplicates native engine errors and warnings to this [Console] using custom [Logger].
+@export var add_engine_logger: bool = true
+
 var commands: Dictionary[String, Dictionary] = {}
 
-var previous_command_result_code: int = 0
+var logger_instance: Logger
 
+var CustomLogger = preload("res://addons/lk_console/lk_console_engine_logger.gd")
 
 #region Static methods
 ## Tries to convert string to float using [member float_aliases], if it fails tries to use engine function, if it also fails, returns [code]null[/code].
@@ -61,7 +67,9 @@ static func int_from_string(string: String):
 func _ready() -> void:
     Console.instance = self
     
-    visibility_changed.connect(_on_visibility_changed)
+    if add_engine_logger:
+        logger_instance = CustomLogger.new()
+        OS.add_logger(logger_instance)
     
     bind_command("help", cmd_print_help, "Prints list of available commands.")
     bind_command("?", cmd_print_help, "Prints list of available commands.")
@@ -73,8 +81,12 @@ func _ready() -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-    if event.is_action_pressed("ui_cancel"):
+    if hide_on_cancel and event.is_action_pressed("ui_cancel"):
         visible = false
+
+
+func _exit_tree() -> void:
+    OS.remove_logger(logger_instance)
 
 
 func _on_command_input_text_submitted(new_text: String) -> void:
@@ -219,6 +231,7 @@ func execute_command(command_line: String) -> Array:
     if not current_string.strip_edges().is_empty():
         commands_split.append(current_string.strip_edges())
     
+    var previous_command_result_code: int = 0
     var errors = []
     for command in commands_split:
         if command == ";":

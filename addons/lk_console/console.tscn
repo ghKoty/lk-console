@@ -99,5 +99,6 @@ custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
 [connection signal="close_requested" from="." to="." method="set_visible" binds= [false]]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="text_submitted" from="VBoxContainer/HBoxContainer/CommandInput" to="." method="_on_command_input_text_submitted"]
 [connection signal="button_down" from="VBoxContainer/HBoxContainer/SubmitButton" to="." method="_on_submit_button_down"]

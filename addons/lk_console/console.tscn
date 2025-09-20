@@ -10,9 +10,9 @@ position = Vector2i(0, 36)
 size = Vector2i(600, 350)
 transparent = true
 min_size = Vector2i(600, 350)
+keep_title_visible = true
 theme = ExtResource("1_bhaeq")
 script = ExtResource("1_180ms")
-hide_on_cancel = false
 
 [node name="BackgroundPanel" type="Panel" parent="."]
 anchors_preset = 15
@@ -59,6 +59,7 @@ autowrap_mode = 0
 context_menu_enabled = true
 selection_enabled = true
 deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
 
 [node name="Separator" type="Control" parent="VBoxContainer"]
 layout_mode = 2
@@ -77,6 +78,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 placeholder_text = "Enter command..."
+keep_editing_on_text_submit = true
 caret_blink = true
 caret_blink_interval = 0.5
 

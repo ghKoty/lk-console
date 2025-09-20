@@ -12,6 +12,7 @@ Allows you to register custom commands, print colored output, and interact with 
 - Easy API to bind/unbind your own commands
 - Colored console output
 - Mouse handling (console switches mouse modes automatically)
+- Supports native engine errors and warnings.
 
 ---
 
